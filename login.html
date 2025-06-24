@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>Hepta - تسجيل الدخول</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #7f8c8d, #bdc3c7);
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><text x="0" y="150" font-size="200" fill="rgba(0,0,0,0.05)">7</text></svg>');
+      background-repeat: repeat;
+      background-size: 200px 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-box {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      width: 320px;
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 48px;
+      font-weight: bold;
+      color: #7f8c8d;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      color: #34495e;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #7f8c8d;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #34495e;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <div class="logo">HEPTA 7</div>
+    <h2>تسجيل الدخول</h2>
+    <form onsubmit="login(event)">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">دخول</button>
+    </form>
+    <div class="error" id="errorMsg"></div>
+  </div>
+
+  <script>
+    const users = {
+      user7up:   { password: "pass7up",   page: "team.html?team=7up" },
+      userzing:  { password: "passzing",  page: "team.html?team=zing" },
+      user7star: { password: "pass7star", page: "team.html?team=7star" },
+      admin:     { password: "admin123",  page: "admin.html" }
+    };
+
+    function login(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (users[username] && users[username].password === password) {
+        window.location.href = users[username].page;
+      } else {
+        document.getElementById("errorMsg").textContent = "بيانات الدخول غير صحيحة";
+      }
+    }
+  </script>
+</body>
+</html>
