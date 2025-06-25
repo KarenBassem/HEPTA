@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>HEPTA - صفحة الفريق</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="module" src="teams.js"></script>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -14,18 +15,15 @@
       text-align: center;
       padding: 40px;
     }
-
     h1 {
       color: #2c3e50;
       font-size: 32px;
     }
-
     .score {
       font-size: 24px;
       margin: 20px 0;
       color: #34495e;
     }
-
     .battery-vertical {
       width: 120px;
       margin: 30px auto;
@@ -33,14 +31,12 @@
       flex-direction: column;
       align-items: center;
     }
-
     .battery-head {
       width: 40px;
       height: 14px;
       background-color: #333;
       border-radius: 3px 3px 0 0;
     }
-
     .battery-body {
       width: 90px;
       height: 300px;
@@ -52,7 +48,6 @@
       padding: 8px;
       background: white;
     }
-
     .battery-segment {
       height: 40px;
       background-color: #ddd;
@@ -60,19 +55,15 @@
       border-radius: 6px;
       transition: background-color 0.3s;
     }
-
     .battery-segment.filled-red {
       background-color: #e74c3c;
     }
-
     .battery-segment.filled-yellow {
       background-color: #f1c40f;
     }
-
     .battery-segment.filled-green {
       background-color: #2ecc71;
     }
-
     #chargeBtn {
       margin-top: 25px;
       padding: 12px 25px;
@@ -87,11 +78,8 @@
   </style>
 </head>
 <body>
-
-  <h1>أهلاً بك يا فريق</h1>
+  <h1>أهلاً بك يا فريق <span id="teamName"></span></h1>
   <div class="score">عدد النقاط: <span id="score"></span></div>
-
-  <!-- البطارية -->
   <div class="battery-vertical">
     <div class="battery-head"></div>
     <div class="battery-body">
@@ -103,75 +91,6 @@
       <div class="battery-segment"></div>
     </div>
   </div>
-
-  <!-- زر الشحن -->
   <button id="chargeBtn">اشحن البطارية</button>
-
-  <script>
-    const teamName = new URLSearchParams(window.location.search).get("team");
-
-    const allowedTeams = ["7up", "zing", "7star"];
-    if (!allowedTeams.includes(teamName)) {
-      document.body.innerHTML = "<h2>بيانات غير صحيحة</h2>";
-      throw new Error("فريق غير موجود");
-    }
-
-    document.querySelector("h1").textContent = ` ${teamName}`;
-
-    let score = parseInt(localStorage.getItem(teamName) || "0");
-    let batteryCharge = parseInt(localStorage.getItem(teamName + "_battery") || "0");
-
-    const scoreSpan = document.getElementById("score");
-    scoreSpan.textContent = score;
-
-    const segments = document.querySelectorAll('.battery-segment');
-    const thresholds = [100, 200, 300, 400, 500, 600]; // تكلفة كل جزء
-
-    const chargeBtn = document.getElementById("chargeBtn");
-
-    // تلوين البطارية حسب عدد الأجزاء المشحونة
-    for (let i = 0; i < batteryCharge && i < 6; i++) {
-      if (i < 2) {
-        segments[i].classList.add('filled-red');
-      } else if (i < 4) {
-        segments[i].classList.add('filled-yellow');
-      } else {
-        segments[i].classList.add('filled-green');
-      }
-    }
-
-    function updateButtonVisibility() {
-      if (batteryCharge < 6 && score >= thresholds[batteryCharge]) {
-        chargeBtn.style.display = "inline-block";
-      } else {
-        chargeBtn.style.display = "none";
-      }
-    }
-
-    updateButtonVisibility();
-
-    chargeBtn.onclick = () => {
-      const required = thresholds[batteryCharge];
-      if (score >= required && batteryCharge < 6) {
-        score -= required;
-        batteryCharge += 1;
-
-        localStorage.setItem(teamName, score);
-        localStorage.setItem(teamName + "_battery", batteryCharge);
-
-        scoreSpan.textContent = score;
-
-        if (batteryCharge - 1 < 2) {
-          segments[batteryCharge - 1].classList.add('filled-red');
-        } else if (batteryCharge - 1 < 4) {
-          segments[batteryCharge - 1].classList.add('filled-yellow');
-        } else {
-          segments[batteryCharge - 1].classList.add('filled-green');
-        }
-
-        updateButtonVisibility();
-      }
-    };
-  </script>
 </body>
 </html>

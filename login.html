@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Hepta - تسجيل الدخول</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="module" src="login.js" defer></script>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -39,7 +40,7 @@
       margin-bottom: 20px;
     }
 
-    input[type="text"], input[type="password"] {
+    input[type="text"], input[type="password"], select {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
@@ -74,33 +75,12 @@
   <div class="login-box">
     <div class="logo">HEPTA 7</div>
     <h2>تسجيل الدخول</h2>
-    <form onsubmit="login(event)">
-      <input type="text" id="username" placeholder="Username" required>
-      <input type="password" id="password" placeholder="Password" required>
-      <button type="submit">دخول</button>
+    <form id="loginForm">
+      <input type="text" id="email" placeholder="البريد الإلكتروني" required>
+      <input type="password" id="password" placeholder="كلمة المرور" required>
+      <button type="submit" id="submit">دخول</button>
     </form>
     <div class="error" id="errorMsg"></div>
   </div>
-
-  <script>
-    const users = {
-      user7up:   { password: "pass7up",   page: "team.html?team=7up" },
-      userzing:  { password: "passzing",  page: "team.html?team=zing" },
-      user7star: { password: "pass7star", page: "team.html?team=7star" },
-      admin:     { password: "admin123",  page: "admin.html" }
-    };
-
-    function login(e) {
-      e.preventDefault();
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-
-      if (users[username] && users[username].password === password) {
-        window.location.href = users[username].page;
-      } else {
-        document.getElementById("errorMsg").textContent = "بيانات الدخول غير صحيحة";
-      }
-    }
-  </script>
 </body>
 </html>

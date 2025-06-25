@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Hepta - Admin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="module" src="admin.js"></script>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -62,51 +63,21 @@
     button:hover {
       background-color: #34495e;
     }
+
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+
+    #loading {
+      color: #34495e;
+      font-size: 18px;
+    }
   </style>
 </head>
 <body>
   <h1>HEPTA 7 - Admin Control</h1>
+  <div id="loading">جاري تحميل الفرق...</div>
   <div id="teamsContainer"></div>
-
-  <script>
-    const teams = ['7up', 'zing', '7star'];
-
-    function getScore(team) {
-      return parseInt(localStorage.getItem(team) || '0');
-    }
-
-    function setScore(team, value) {
-      localStorage.setItem(team, value);
-      document.getElementById(team + '-score').textContent = `الدرجات الحالية: ${value}`;
-      if (value === 0) localStorage.setItem(team + '_battery', 0);
-    }
-
-    function createTeamBox(team) {
-      const box = document.createElement('div');
-      box.className = 'team-box';
-      box.innerHTML = `
-        <h3>${team.toUpperCase()}</h3>
-        <div class="score" id="${team}-score">الدرجات الحالية: ${getScore(team)}</div>
-        <input type="number" id="${team}-input" placeholder="أدخل الدرجة">
-        <br>
-        <button onclick="addScore('${team}')">ADD</button>
-        <button class="remove" onclick="removeScore('${team}')">DELETE</button>
-      `;
-      return box;
-    }
-
-    function addScore(team) {
-      const value = parseInt(document.getElementById(`${team}-input`).value || '0');
-      if (!isNaN(value)) setScore(team, getScore(team) + value);
-    }
-
-    function removeScore(team) {
-      const value = parseInt(document.getElementById(`${team}-input`).value || '0');
-      if (!isNaN(value)) setScore(team, Math.max(0, getScore(team) - value));
-    }
-
-    const container = document.getElementById('teamsContainer');
-    teams.forEach(team => container.appendChild(createTeamBox(team)));
-  </script>
 </body>
 </html>
